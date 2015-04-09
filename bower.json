@@ -1,0 +1,26 @@
+{
+  "name": "photo-browse",
+  "version": "0.0.0",
+  "authors": [
+    "Guillaume Marty <edo999@gmail.com>"
+  ],
+  "description": "An app to browse photos",
+  "keywords": [
+    "photo",
+    "worker",
+    "kittens"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "threads": "git@github.com:gaia-components/threads.git#master",
+    "alameda": "~0.2.0"
+  }
+}
