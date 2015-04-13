@@ -1,0 +1,14 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  /*background: var(--background);*/
+}
+
+div.thumbnail {
+  width: 25vw;
+  height: 25vw;
+  max-width: 25vw;
+  max-height: 25vw;
+  float: left;
+}

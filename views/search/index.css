@@ -1,0 +1,11 @@
+
+* { margin: 0; padding: 0; }
+
+a { text-decoration: none; color: inherit; }
+
+body {
+  padding: 0 18px;
+  background: var(--background);
+  font-family: sans-serif;
+}
+

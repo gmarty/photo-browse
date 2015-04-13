@@ -1,11 +1,16 @@
 html {
   font: normal 10px/10px Arial;
+  height: 100%;
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   margin: 0;
   padding: 0;
   font: normal 2.4rem/4.8rem Arial;
+  background: var(--background);
 }
 
 body > section {
@@ -17,10 +22,15 @@ body > section {
   background: url(../img/icon.svg) no-repeat center center/contain;
 }
 
-div.thumbnail {
-  width: 25vw;
-  height: 25vw;
-  max-width: 25vw;
-  max-height: 25vw;
-  float: left;
+gaia-header {
+  /*border-bottom: solid 2px red;*/
+}
+
+.app-content {
+  position: relative;
+  flex: 1;
+}
+
+:unresolved {
+  display: none;
 }
