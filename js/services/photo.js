@@ -2,10 +2,8 @@
 
 importScripts('../../bower_components/threads/threads.js');
 
-const API_KEY = '3addea8aee8a56e58cf2aa729b436970';
-
 threads.service('photo-service', {
-  start: function(params) {
+  getPhotos: function(params) {
     return new Promise(function(resolve, reject) {
       var errorHandler = function(status) {
         console.log('There was an error in receiving data.', status);
@@ -34,6 +32,7 @@ threads.service('photo-service', {
 });
 
 function createUrl(query) {
+  var API_KEY = '3addea8aee8a56e58cf2aa729b436970';
   return `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_KEY}&text=${encodeURI(query)}&format=json&nojsoncallback=1`;
 }
 

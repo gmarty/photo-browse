@@ -25,6 +25,8 @@
     "gaia-header": "gaia-components/gaia-header#~0.8.1",
     "gaia-text-input": "gaia-components/gaia-text-input#~0.1.1",
     "gaia-theme": "gaia-components/gaia-theme#~0.4.6",
-    "gaia-button": "gaia-components/gaia-button#master"
+    "gaia-button": "gaia-components/gaia-button#master",
+    "gaia-loading": "gaia-components/gaia-loading",
+    "little-browser": "gaia-components/little-browser#master"
   }
 }

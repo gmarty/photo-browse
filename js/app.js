@@ -1,73 +1,84 @@
-// define((require, exports, module) => {
-'use strict';
-
-// Loading custom-elements async causes FOUC.
-// We should work out a nice way to have
-// registerElement run as fast as possible.
-// require('little-browser/lib/little-browser');
-// require('gaia-header');
-
-// require('./threads-manager');
+(function(exports) {
 
 var debug = 0 ? console.log.bind(console,'[app]') : () => {};
-var browser = document.querySelector('little-browser');
-var header = document.querySelector('gaia-header');
-var title = document.querySelector('gaia-header h1');
 
-if (!location.hash) location.hash = '#/search/index.html';
+function App() {
+  this.els = {
+    browser: document.querySelector('little-browser'),
+    title: document.querySelector('gaia-header h1'),
+    header: document.querySelector('gaia-header')
+  };
 
-addEventListener('hashchange', updateWebview);
-browser.addEventListener('metadata', onPageChanged);
+  // Make sure there's a view path fragment
+  if (!location.hash) location.hash = '#/search/index.html';
 
-function updateWebview() {
-  debug('update web view');
-  var url = getViewUrl();
-  browser.navigate(url);
-  debug('navigated webview', url);
+  this.els.browser.addEventListener('navigate', this.updateWindow.bind(this));
+  this.els.browser.addEventListener('changed', this.onPageChanged.bind(this));
+  addEventListener('hashchange', this.updateBrowser.bind(this));
+  this.updateBrowser();
 }
+
+App.prototype.onPageChanged = function(e) {
+  var metadata = e.detail;
+  debug('page changed', metadata);
+  this.els.title.textContent = metadata.title;
+  document.title = metadata.title;
+  this.updateHeaderAction(metadata.navigation);
+};
+
+App.prototype.updateHeaderAction = function(nav) {
+  debug('update header action', nav);
+  var type = nav && nav.type;
+  var header = this.els.header;
+
+  header.action = type;
+  header.removeEventListener('action', header.onaction);
+
+  if (!type) return;
+
+  header.onaction = () => this.navigate(nav.link);
+  header.addEventListener('action', header.onaction);
+};
+
+App.prototype.navigate = function(url) {
+  var absolute = parseUrl(url).absolute;
+  this.els.browser.navigate(absolute);
+};
+
+App.prototype.updateWindow = function() {
+  var parsed = parseUrl(this.els.browser.src);
+  var fragment = parsed.pathname.replace('views/', '') + parsed.search;
+  location.hash = fragment;
+};
+
+App.prototype.updateBrowser = function() {
+  this.navigate(getViewUrl());
+};
+
+/**
+ * Utils
+ */
 
 function getViewUrl() {
   var hash = location.hash.replace('#/', '');
-  return [
-    location.protocol + '//',
-    location.hostname,
-    location.port ? ':' + location.port : '',
-    '/views/',
-    hash
-  ].join('');
+  return location.origin + '/views/' + hash;
 }
 
-function onPageChanged(e) {
-  var metadata = e.detail;
-  var path = pathname(browser.src);
-  debug('page changed', metadata, browser.src, path);
-  title.textContent = metadata.title;
-  updateHeaderAction(metadata.navigation);
-  setUrl(path);
-}
-
-function updateHeaderAction(data) {
-  debug('update header action', data);
-  var type = data && data.type;
-  header.action = type;
-  header.removeEventListener('action', header.onaction);
-  if (!type) return;
-  header.onaction = () => setUrl(data.link);
-  header.addEventListener('action', header.onaction);
-}
-
-function setUrl(url) {
-  location.hash = '/' + url.replace('views/', '');
-}
-
-// Initial page
-updateWebview();
-
-
-function pathname(url) {
+function parseUrl(url) {
   var a = document.createElement('a');
   a.href = url;
-  return a.pathname.replace(location.pathname, '');
+  return {
+    full: url,
+    absolute: a.href,
+    origin: a.origin,
+    pathname: a.pathname,
+    search: a.search,
+    hash: a.hash,
+    file: a.origin + a.pathname,
+    hashless: a.origin + a.pathname + a.search
+  };
 }
 
-// });
+exports.app = new App();
+
+})(window);
