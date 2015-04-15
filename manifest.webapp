@@ -2,7 +2,7 @@
   "name": "Photo Browse",
   "version": "0.0.0",
   "description": "An app to browse photos",
-  "launch_path": "/index.html",
+  "launch_path": "/layouts/small/index.html",
   "icons": {
     "16": "/img/icons/16.png",
     "32": "/img/icons/32.png",

@@ -13,11 +13,6 @@
   "bugs": {
     "url": "https://github.com/gaia-components/photo-browse/issues"
   },
-  "dependencies": {
-    "gaia-component": "git://github.com/gaia-components/gaia-component",
-    "requirejs": "^2.1.17",
-    "threads": "git://github.com/gaia-components/threads"
-  },
   "devDependencies": {
     "adapt-pkg-main": "^1.0.1",
     "http-server": "^0.8.0"
