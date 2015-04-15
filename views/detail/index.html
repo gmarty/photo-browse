@@ -1,0 +1,29 @@
+  <!DOCTYPE html>
+<html>
+<head lang="en-US">
+  <meta charset="utf-8">
+  <title>Detail</title>
+  <base href="../../">
+  <link rel="prerender" href="views/results">
+
+  <!-- Define the header-action type -->
+  <meta property="navigation:type" content="back">
+  <meta property="navigation:link" content="back()">
+
+  <link rel="stylesheet" href="views/detail/index.css">
+  <link rel="stylesheet" href="bower_components/gaia-theme/gaia-theme.css">
+</head>
+<body class="theme-media">
+  <gaia-loading id="spinner"></gaia-loading>
+  <div class="photo">
+    <img class="image"/>
+    <h1 class="title"></h1>
+  </div>
+
+  <script src="bower_components/gaia-component/gaia-component.js"></script>
+  <script src="bower_components/gaia-loading/gaia-loading.js"></script>
+  <script src="bower_components/threads/threads.js"></script>
+  <script src="bower_components/little-browser/lib/runtime.js"></script>
+  <script src="views/detail/index.js"></script>
+</body>
+</html>

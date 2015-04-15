@@ -6,11 +6,13 @@ body {
 }
 
 .thumbnail {
-  width: 25vw;
-  height: 25vw;
-  max-width: 25vw;
-  max-height: 25vw;
+  display: block;
+  width: 33vw;
+  height: 33vw;
   float: left;
+  box-shadow:
+    inset -1px -1px 0px var(--border-color),
+    inset 1px 1px 0px var(--border-color);
 }
 
 .thumbnail img {

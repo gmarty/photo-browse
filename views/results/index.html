@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Results</title>
   <base href="../../">
+  <link rel="prerender" href="views/detail">
 
   <!-- Define the header-action type -->
   <meta property="navigation:type" content="back">
@@ -18,10 +19,16 @@
 
   <link rel="stylesheet" href="views/results/index.css">
   <link rel="stylesheet" href="bower_components/gaia-theme/gaia-theme.css">
-  <script src="bower_components/alameda/alameda.js" data-main="views/results/config"></script>
+  <!-- <script src="bower_components/alameda/alameda.js" data-main="views/results/config"></script> -->
 </head>
 <body class="theme-media">
   <gaia-loading id="spinner"></gaia-loading>
   <div id="main"></div>
+
+  <script src="bower_components/gaia-component/gaia-component.js"></script>
+  <script src="bower_components/gaia-loading/gaia-loading.js"></script>
+  <script src="bower_components/threads/threads.js"></script>
+  <script src="bower_components/little-browser/lib/runtime.js"></script>
+  <script src="views/results/index.js"></script>
 </body>
 </html>

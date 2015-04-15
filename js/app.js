@@ -10,7 +10,7 @@ function App() {
   };
 
   // Make sure there's a view path fragment
-  if (!location.hash) location.hash = '#/search/index.html';
+  if (!location.hash) location.hash = '/search/';
 
   this.els.browser.addEventListener('navigate', this.updateWindow.bind(this));
   this.els.browser.addEventListener('changed', this.onPageChanged.bind(this));
@@ -36,7 +36,11 @@ App.prototype.updateHeaderAction = function(nav) {
 
   if (!type) return;
 
-  header.onaction = () => this.navigate(nav.link);
+  header.onaction = () => {
+    if (nav.link === 'back()') this.back();
+    else this.navigate(nav.link);
+  };
+
   header.addEventListener('action', header.onaction);
 };
 
@@ -45,10 +49,18 @@ App.prototype.navigate = function(url) {
   this.els.browser.navigate(absolute);
 };
 
+App.prototype.back = function(url) {
+  this.els.browser.back();
+};
+
+App.prototype.forward = function(url) {
+  this.els.browser.forward();
+};
+
 App.prototype.updateWindow = function() {
   var parsed = parseUrl(this.els.browser.src);
   var fragment = parsed.pathname.replace('views/', '') + parsed.search;
-  location.hash = fragment;
+  location.hash = fragment.replace('/index.html', '');
 };
 
 App.prototype.updateBrowser = function() {

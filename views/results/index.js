@@ -1,9 +1,3 @@
-define((require, module, exports) => {
-
-require('little-browser/lib/runtime');
-require('gaia-loading');
-
-var threads = require('threads');
 
 var debug = 1 ? console.log.bind(console,'[views/results]') : () => {};
 var client = threads.client('photo-service');
@@ -17,18 +11,19 @@ function loadPhotos() {
 
   if (!query) return;
 
-  client.call('getPhotos', { query: query }).then(function(urls) {
-    debug('got urls', Date.now() - start + 'ms', urls);
-    urls.forEach(function(url) {
-      var div = document.createElement('div');
+  client.call('search', query).then(function(photos) {
+    debug('got photos', Date.now() - start + 'ms', photos);
+    photos.forEach(function(photo) {
+      var a = document.createElement('a');
       var img = document.createElement('img');
 
-      div.className = 'thumbnail';
-      img.src = url;
+      a.className = 'thumbnail';
+      a.href = 'views/detail?id=' + photo.id;
+      img.src = photo.url;
       img.onload = imageLoaded;
 
-      div.appendChild(img);
-      mainEl.appendChild(div);
+      a.appendChild(img);
+      mainEl.appendChild(a);
     });
   });
 }
@@ -59,5 +54,3 @@ function parseQuery(query) {
 
   return result;
 }
-
-});
