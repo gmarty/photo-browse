@@ -1,0 +1,30 @@
+
+* { margin: 0; padding: 0; }
+
+a { text-decoration: none; color: inherit; }
+
+body {
+  padding: 0 18px;
+  background: var(--background);
+  font-family: sans-serif;
+  color: var(--text-color);
+}
+
+input[type=search] {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  margin: 18px 0;
+  padding: 0 16px;
+  font: inherit;
+  background: var(--background-plus);
+  border: var(--input-border);
+  color: inherit;
+}
+
+::-moz-placeholder {
+  font-style: italic;
+  color:
+    var(--input-placeholder-color, #909ca7);
+}
+

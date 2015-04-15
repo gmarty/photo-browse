@@ -2,41 +2,82 @@
 
 importScripts('../../bower_components/threads/threads.js');
 
-const API_KEY = '3addea8aee8a56e58cf2aa729b436970';
-const QUERY = 'Hello Kitty';
-
-var endpoint = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_KEY}&text=${encodeURI(QUERY)}&format=json&nojsoncallback=1`;
 
 threads.service('photo-service', {
-  start: function() {
-    return new Promise(function(resolve, reject) {
-      var errorHandler = function(status) {
-        console.log('There was an error in receiving data.', status);
-        reject(false);
-      };
+  search: function(query) {
+    return flickrApi({
+      method: 'flickr.photos.search',
+      text: query
+    }).then(result => {
+      return parse(result.photos.photo);
+    });
+  },
 
-      var xhr = new XMLHttpRequest();
-      xhr.open('get', endpoint, true);
-      xhr.responseType = 'json';
-      xhr.overrideMimeType('application/json');
-      xhr.setRequestHeader('Accept', 'application/json,text/javascript,*/*;q=0.01');
-      xhr.onload = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-          var urls = parse(xhr.response.photos.photo);
-          resolve(urls);
-        } else {
-          errorHandler(xhr.status);
-        }
-      };
-      xhr.onerror = errorHandler;
-      xhr.send();
+  getPhoto: function(id) {
+    return new Promise((resolve, reject) => {
+      Promise.all([
+        flickrApi({
+          method: 'flickr.photos.getInfo',
+          photo_id: id
+        }),
+
+        flickrApi({
+          method: 'flickr.photos.getSizes',
+          photo_id: id
+        })
+      ]).then(result => {
+        var photo = result[0].photo;
+        var sizes = result[1].sizes.size;
+        photo.thumb = getSrc(photo);
+        photo.url = sizes[sizes.length-4].source;
+        photo.sizes = sizes;
+        resolve(photo);
+      }, reject);
     });
   }
 });
 
+function flickrApi(params) {
+  return new Promise((resolve, reject) => {
+    var API_KEY = '3addea8aee8a56e58cf2aa729b436970';
+    var url = 'https://api.flickr.com/services/rest/?api_key=' + API_KEY + '&format=json&nojsoncallback=1';
+
+    // Bolt-on params
+    for (var key in params) url += '&' + key + '=' + params[key];
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', url, true);
+    xhr.responseType = 'json';
+    xhr.overrideMimeType('application/json');
+    xhr.setRequestHeader('Accept', 'application/json,text/javascript,*/*;q=0.01');
+
+    xhr.onload = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        resolve(xhr.response);
+      } else {
+        reject(xhr.status);
+      }
+    };
+
+    xhr.onerror = reject;
+    xhr.send();
+  });
+}
+
+/**
+ * Utils
+ */
+
 function parse(photos) {
   return photos
     .map(function(photo) {
-      return `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_s.jpg`;
+      return {
+        id: photo.id,
+        url: getSrc(photo)
+      };
     });
+}
+
+function getSrc(photo) {
+  return `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_s.jpg`;
 }

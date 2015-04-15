@@ -1,0 +1,34 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+}
+
+.thumbnail {
+  display: block;
+  width: 33vw;
+  height: 33vw;
+  float: left;
+  box-shadow:
+    inset -1px -1px 0px var(--border-color),
+    inset 1px 1px 0px var(--border-color);
+}
+
+.thumbnail img {
+  height: 100%;
+  opacity: 0;
+}
+
+.thumbnail img.loaded {
+  opacity: 1;
+  transition: opacity 300ms
+}
+
+gaia-loading {
+  position: absolute !important;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  margin: -20px !important;
+}

@@ -1,0 +1,41 @@
+
+body {
+  margin: 0;
+  padding: 0 18px;
+  background: var(--background);
+  font-family: sans-serif;
+  color: var(--text-color);
+}
+
+.photo {
+  transition: opacity 300ms
+}
+
+.loading .photo {
+  opacity: 0;
+  transition: none;
+}
+
+img {
+  width: 100%;
+  opacity: 0;
+}
+
+img.loaded {
+  opacity: 1;
+  transition: opacity 300ms
+}
+
+gaia-loading {
+  position: absolute !important;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  margin: -20px !important;
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+.loading gaia-loading {
+  opacity: 1;
+}
