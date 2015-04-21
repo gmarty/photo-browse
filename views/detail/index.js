@@ -11,6 +11,7 @@ function loadPhoto() {
 
   if (!id) return;
 
+  debug('load photo', id);
   loadingStart();
   client.call('getPhoto', id).then(function(photo) {
     debug('got photo', photo);

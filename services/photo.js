@@ -4,10 +4,12 @@ importScripts('../../bower_components/threads/threads.js');
 
 
 threads.service('photo-service', {
-  search: function(query) {
+  search: function(params) {
     return flickrApi({
       method: 'flickr.photos.search',
-      text: query
+      page: params.page || 1,
+      per_page: params.per_page || 100,
+      text: params.query
     }).then(result => {
       return parse(result.photos.photo);
     });

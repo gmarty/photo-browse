@@ -11,7 +11,7 @@ function loadPhotos() {
 
   if (!query) return;
 
-  client.call('search', query).then(function(photos) {
+  client.call('search', { query: query, per_page: 20 }).then(function(photos) {
     debug('got photos', Date.now() - start + 'ms', photos);
     photos.forEach(function(photo) {
       var a = document.createElement('a');
